@@ -287,36 +287,36 @@ MyVector MyVector::sortedSquares(const MyVector& vec, SortedStrategy strategy)
 	int right = _size - 1;
 	int left = 0;
 	int i;
-	if (strategy == SortedStrategy::Up) i = 0;
-	else if (strategy == SortedStrategy::Down) i = _size - 1;
+	if (strategy == SortedStrategy::Decr) i = 0;
+	else if (strategy == SortedStrategy::Incr) i = _size - 1;
 	while (left != right)
 	{
 		if (abs(vec[left]) > abs(vec[right]))
 		{
 			sqr._data[i] = vec[left] * vec[left];
 			left++;
-			if (strategy == SortedStrategy::Up) i++;
-			else if (strategy == SortedStrategy::Down) i--;
+			if (strategy == SortedStrategy::Decr) i++;
+			else if (strategy == SortedStrategy::Incr) i--;
 			continue;
 		}
 		else if (abs(vec[left]) < abs(vec[right]))
 		{
 			sqr._data[i] = vec[right] * vec[right];
 			right--;
-			if (strategy == SortedStrategy::Up) i++;
-			else if (strategy == SortedStrategy::Down) i--;
+			if (strategy == SortedStrategy::Decr) i++;
+			else if (strategy == SortedStrategy::Incr) i--;
 			continue;
 		}
 		else
 		{
 			sqr._data[i] = vec[right] * vec[right];
-			if (strategy == SortedStrategy::Up) i++;
-			else if (strategy == SortedStrategy::Down) i--;
+			if (strategy == SortedStrategy::Decr) i++;
+			else if (strategy == SortedStrategy::Incr) i--;
 			sqr._data[i] = vec[left] * vec[left];
 			left++;
 			right--;
-			if (strategy == SortedStrategy::Up) i++;
-			else if (strategy == SortedStrategy::Down) i--;
+			if (strategy == SortedStrategy::Decr) i++;
+			else if (strategy == SortedStrategy::Incr) i--;
 		}
 
 	}

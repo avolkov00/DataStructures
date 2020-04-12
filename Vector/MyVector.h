@@ -7,8 +7,8 @@ enum class ResizeStrategy {
 };
 
 enum class SortedStrategy {
-	Up,
-	Down
+	Incr,
+	Decr
 };
 
 // тип значений в векторе
