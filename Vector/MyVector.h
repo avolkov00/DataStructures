@@ -6,6 +6,11 @@ enum class ResizeStrategy {
 	Multiplicative
 };
 
+enum class SortedStrategy {
+	Up,
+	Down
+};
+
 // тип значений в векторе
 // потом будет заменен на шаблон
 using ValueType = double;
@@ -13,6 +18,7 @@ using ValueType = double;
 class MyVector
 {
 public:
+
 	MyVector(size_t size = 0, ResizeStrategy = ResizeStrategy::Multiplicative, float coef = 1.5f);
 	MyVector(size_t size, ValueType value, ResizeStrategy = ResizeStrategy::Multiplicative, float coef = 1.5f);
 	
@@ -63,9 +69,17 @@ public:
 
 	// очистка вектора, без изменения capacity
 	void clear();
+
+	ValueType* begin() { return _data; }
+	ValueType* end() { return _data + _size; }
+
+	MyVector sortedSquares(const MyVector& vec, SortedStrategy strategy);
+
 private:
 	ValueType* _data;
 	size_t _size;
 	size_t _capacity;
+	ResizeStrategy _strategy;
+	float _coef;
 };
 
