@@ -60,7 +60,7 @@ public:
 	// разворот списка
 	void reverse();						// изменение текущего списка
 	LinkedList reverse() const;			// полчение нового списка (для константных объектов)
-	LinkedList getReverseList() const;	// чтобы неконстантный объект тоже мог возвращать новый развернутый список
+	LinkedList getReverseList() ;	// чтобы неконстантный объект тоже мог возвращать новый развернутый список
 
 	size_t size() const;
 private:
