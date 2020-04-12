@@ -226,7 +226,6 @@ long long int MyVector::find(const ValueType& value, bool isBegin) const
 
 void MyVector::reserve(const size_t capacity)
 {
-	//if(_capacity<_size) throw  std::out_of_range("Incorrect capacity"); 
 	MyVector Buf(*this);
 	if (capacity < _size)
 		_size = _capacity;
@@ -290,7 +289,6 @@ MyVector MyVector::sortedSquares(const MyVector& vec, SortedStrategy strategy)
 	int i;
 	if (strategy == SortedStrategy::Up) i = 0;
 	else if (strategy == SortedStrategy::Down) i = _size - 1;
-	//else throw 
 	while (left != right)
 	{
 		if (abs(vec[left]) > abs(vec[right]))
