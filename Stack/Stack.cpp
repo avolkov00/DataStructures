@@ -11,11 +11,11 @@ Stack::Stack(StackContainer container)
 	switch (container)
 	{
 	case StackContainer::List: {
-		_pimpl = new ListStack();	// конкретизируйте под ваши конструкторы, если надо
+		ListStack _pimpl;	// конкретизируйте под ваши конструкторы, если надо
 		break;
 	}
 	case StackContainer::Vector: {
-		_pimpl = new VectorStack();	// конкретизируйте под ваши конструкторы, если надо
+		_pimpl = VectorStack();	// конкретизируйте под ваши конструкторы, если надо
 		break;
 	}
 	default:
@@ -24,13 +24,29 @@ Stack::Stack(StackContainer container)
 }
 
 Stack::Stack(const ValueType* valueArray, const size_t arraySize, StackContainer container)
+	: _containerType(container)
 {
-	// принцип тот же, что и в прошлом конструкторе
+	switch (container)
+	{
+	case StackContainer::List: {
+		_pimpl = ListStack();	// конкретизируйте под ваши конструкторы, если надо
+		for (size_t i = 0; i < arraySize; i++) _pimpl->push(valueArray[i]);
+		break;
+	}
+	case StackContainer::Vector: {
+		_pimpl = VectorStack();	// конкретизируйте под ваши конструкторы, если надо
+		for (size_t i = 0; i < arraySize; i++) _pimpl->push(valueArray[i]);
+		break;
+	}
+	default:
+		throw std::runtime_error("Неизвестный тип контейнера");
+	}
 }
 
 Stack::Stack(const Stack& copyStack)
+	:_containerType(copyStack._containerType)
 {
-	// сами
+	*_pimpl = *(copyStack._pimpl);
 }
 
 Stack& Stack::operator=(const Stack& copyStack)

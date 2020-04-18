@@ -1,0 +1,8 @@
+
+*.user
+*.ipch
+*.filters
+*.vcxproj
+*.sln
+*.db
+Stack/Stack/.vs/Stack/v16/.suo
