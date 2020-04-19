@@ -9,19 +9,19 @@
 // множественное наследование можно заменить на композицию
 class ListStack : public StackImplementation, public LinkedList
 {
-	ListStack();
+	ListStack() {};
 	// добавление в хвост
 	void push(const ValueType& value);
 	// удаление с хвоста
-	void pop() = 0;
+	void pop();
 	// посмотреть элемент в хвосте
-	ValueType& top() = 0;
+	ValueType& top();
 	const ValueType& top() const;
 	// проверка на пустоту
 	bool isEmpty() const ;
 	// размер 
 	size_t size() const ;
 	// виртуальный деструктор
-	ListStack operator new ();
+	~ListStack() override {};
 };
 

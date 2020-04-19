@@ -11,11 +11,11 @@ Stack::Stack(StackContainer container)
 	switch (container)
 	{
 	case StackContainer::List: {
-		ListStack _pimpl;	// конкретизируйте под ваши конструкторы, если надо
+		_pimpl = new ListStack();	// конкретизируйте под ваши конструкторы, если надо
 		break;
 	}
 	case StackContainer::Vector: {
-		_pimpl = VectorStack();	// конкретизируйте под ваши конструкторы, если надо
+		_pimpl = new VectorStack();     // конкретизируйте под ваши конструкторы, если надо
 		break;
 	}
 	default:
@@ -24,30 +24,34 @@ Stack::Stack(StackContainer container)
 }
 
 Stack::Stack(const ValueType* valueArray, const size_t arraySize, StackContainer container)
-	: _containerType(container)
+	: Stack(container)
 {
-	switch (container)
-	{
-	case StackContainer::List: {
-		_pimpl = ListStack();	// конкретизируйте под ваши конструкторы, если надо
-		for (size_t i = 0; i < arraySize; i++) _pimpl->push(valueArray[i]);
-		break;
-	}
-	case StackContainer::Vector: {
-		_pimpl = VectorStack();	// конкретизируйте под ваши конструкторы, если надо
-		for (size_t i = 0; i < arraySize; i++) _pimpl->push(valueArray[i]);
-		break;
-	}
-	default:
-		throw std::runtime_error("Неизвестный тип контейнера");
+	for (size_t i = 0; i < arraySize; i++) {
+		_pimpl->push(valueArray[i]);
 	}
 }
 
 Stack::Stack(const Stack& copyStack)
-	:_containerType(copyStack._containerType)
+	: Stack(copyStack._containerType) 
 {
-	*_pimpl = *(copyStack._pimpl);
+	size_t size = copyStack._pimpl->size();
+	auto* bufArr = new ValueType[size];
+
+	for (size_t i = 0; i < size; i++)
+	{
+		bufArr[i] = copyStack._pimpl->top();
+		copyStack._pimpl->pop();
+	}
+
+	for (size_t i = 0; i < size; i++) 
+		{
+		_pimpl->push(bufArr[i]);
+		copyStack._pimpl->push(bufArr[i]);
+	}
+
+	delete[] bufArr;
 }
+
 
 Stack& Stack::operator=(const Stack& copyStack)
 {

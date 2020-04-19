@@ -1,12 +1,10 @@
 #include "ListStack.h"
 #include "LinkedList.cpp"
 #include "LinkedList.h"
-ListStack::ListStack() {
-}
+
 void ListStack::push(const ValueType& value)
 {
 	pushFront(value);
-	return;
 }
 
 void ListStack::pop()

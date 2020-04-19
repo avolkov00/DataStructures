@@ -7,7 +7,7 @@ using ValueType = double;
 
 // интерфейс для конкретных реализаций контейнера для стека
 class StackImplementation {
-public:
+public:	
 	// добавление в хвост
 	virtual void push(const ValueType& value) = 0;
 	// удаление с хвоста

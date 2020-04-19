@@ -324,4 +324,3 @@ MyVector MyVector::sortedSquares(const MyVector& vec, SortedStrategy strategy)
 
 	return sqr;
 }
-s
