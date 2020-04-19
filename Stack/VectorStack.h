@@ -6,6 +6,11 @@
 // множественное наследование можно заменить на композицию
 class VectorStack : public StackImplementation, public MyVector
 {
+public:
+	VectorStack() {};
+	VectorStack(VectorStack& list)
+		:MyVector(list)
+	{};
 	// добавление в хвост
 	void push(const ValueType& value);
 	// удаление с хвоста

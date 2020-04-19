@@ -40,22 +40,23 @@ Queue::Queue(const ValueType* valueArray, const size_t arraySize, QueueContainer
 Queue::Queue(const Queue& copyQueue)
 	: Queue(copyQueue._containerType) 
 {
-	size_t size = copyQueue._pimpl->size();
-	ValueType* bufArr = new ValueType[size];
-
-	for (size_t i = 0; i < size; i++)
+	switch (_containerType)
 	{
-		bufArr[i] = copyQueue._pimpl->front();
-		copyQueue._pimpl->dequeue();
+	case QueueContainer::List: {
+		_pimpl = new ListQueue(*static_cast<ListQueue*>(copyQueue._pimpl));
+		break;
 	}
-
-	for (size_t i = 0; i < size; i++) 
-		{
-		_pimpl->enqueue(bufArr[i]);
-		copyQueue._pimpl->enqueue(bufArr[i]);
+	case QueueContainer::Vector: {
+		_pimpl = new VectorQueue(*(static_cast<VectorQueue*>(copyQueue._pimpl)));     // конкретизируйте под ваши конструкторы, если надо
+		break;
 	}
-
-	delete[] bufArr;
+	case QueueContainer::DoubleList:{
+		_pimpl = new DoubleListQueue(*(static_cast<DoubleListQueue*>(copyQueue._pimpl)));     // конкретизируйте под ваши конструкторы, если надо
+		break;
+	}
+	default:
+		throw std::runtime_error("Неизвестный тип контейнера");
+	}
 }
 
 
@@ -64,22 +65,23 @@ Queue& Queue::operator=(const Queue& copyQueue)
 	delete _pimpl;
 	_containerType = copyQueue._containerType;
 
-	size_t size = copyQueue._pimpl->size();
-	ValueType* bufArr = new ValueType[size];
-
-	for (size_t i = 0; i < size; i++)
+	switch (_containerType)
 	{
-		bufArr[i] = copyQueue._pimpl->front();
-		copyQueue._pimpl->dequeue();
+	case QueueContainer::List: {
+		_pimpl = new ListQueue(*static_cast<ListQueue*>(copyQueue._pimpl));
+		break;
 	}
-
-	for (size_t i = 0; i < size; i++)
-	{
-		_pimpl->enqueue(bufArr[i]);
-		copyQueue._pimpl->enqueue(bufArr[i]);
+	case QueueContainer::Vector: {
+		_pimpl = new VectorQueue(*(static_cast<VectorQueue*>(copyQueue._pimpl)));     // конкретизируйте под ваши конструкторы, если надо
+		break;
 	}
-
-	delete[] bufArr;
+	case QueueContainer::DoubleList:{
+	   _pimpl = new DoubleListQueue(*(static_cast<DoubleListQueue*>(copyQueue._pimpl)));     // конкретизируйте под ваши конструкторы, если надо
+	   break;
+	}
+	default:
+	   throw std::runtime_error("Неизвестный тип контейнера");
+	}
 
 	return *this;
 }
@@ -119,14 +121,17 @@ size_t Queue::size() const
 {
 	return _pimpl->isEmpty();
 }
-
+/*
 int main() {
 	Queue st(QueueContainer::Vector);
 	st.enqueue(1);
 	st.enqueue(2);
-	std::cout << st.front();
-	st.dequeue();
-	std::cout << st.front();
+	Queue st2(QueueContainer::Vector);
+	st2 = st;
+	std::cout << st2.front();
+	st2.dequeue();
+	std::cout << st2.front();
 	return 0;
 
 }
+*/

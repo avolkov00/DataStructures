@@ -6,7 +6,7 @@ void VectorQueue::enqueue(const ValueType& value) {
 
 void VectorQueue::dequeue() {
 	_headIndex++;
-	if (_headIndex > size()/2) { 
+	if (float(size())/_headIndex > 2) {
 		MyVector bufVector(*this);
 		this->clear();
 		for (size_t i = _headIndex; i < bufVector.size(); i++) {

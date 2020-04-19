@@ -8,6 +8,11 @@
 // множественное наследование можно заменить на композицию
 class ListStack : public StackImplementation, public LinkedList
 {
+public:
+	ListStack() {};
+	ListStack(ListStack& list)
+		:LinkedList(list)
+	{};
 	// добавление в хвост
 	void push(const ValueType& value);
 	// удаление с хвоста

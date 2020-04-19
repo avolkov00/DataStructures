@@ -8,6 +8,9 @@
 // множественное наследование можно заменить на композицию
 class ListQueue : public QueueImplementation, public LinkedList
 {
+public:
+	ListQueue() {};
+	ListQueue(ListQueue& que) : LinkedList(que) {};
 	// добавление в хвост
 	void enqueue(const ValueType& value);
 	// удаление с хвоста

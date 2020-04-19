@@ -8,6 +8,9 @@
 // множественное наследование можно заменить на композицию
 class DoubleListQueue : public QueueImplementation, public DoubleLinkedList
 {
+public:
+	DoubleListQueue() {};
+	DoubleListQueue(DoubleListQueue& que) : DoubleLinkedList(que) {};
 	// добавление в хвост
 	void enqueue(const ValueType& value);
 	// удаление с хвоста

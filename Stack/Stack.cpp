@@ -35,46 +35,43 @@ Stack::Stack(const ValueType* valueArray, const size_t arraySize, StackContainer
 Stack::Stack(const Stack& copyStack)
 	: Stack(copyStack._containerType) 
 {
-	size_t size = copyStack._pimpl->size();
-	ValueType* bufArr = new ValueType[size];
-
-	for (size_t i = 0; i < size; i++)
+	switch (_containerType)
 	{
-		bufArr[i] = copyStack._pimpl->top();
-		copyStack._pimpl->pop();
+	case StackContainer::List: {
+		_pimpl = new ListStack(*static_cast<ListStack*>(copyStack._pimpl));
+		break;
 	}
-
-	for (size_t i = 0; i < size; i++) 
-		{
-		_pimpl->push(bufArr[i]);
-		copyStack._pimpl->push(bufArr[i]);
+	case StackContainer::Vector: {
+		_pimpl = new VectorStack(*(static_cast<VectorStack*>(copyStack._pimpl)));     // конкретизируйте под ваши конструкторы, если надо
+		break;
 	}
-
-	delete[] bufArr;
+	default:
+		throw std::runtime_error("Неизвестный тип контейнера");
+	}
 }
 
 
 Stack& Stack::operator=(const Stack& copyStack)
 {
+	if (this == &copyStack) {
+		return *this;
+	}
 	delete _pimpl;
 	_containerType = copyStack._containerType;
 
-	size_t size = copyStack._pimpl->size();
-	ValueType* bufArr = new ValueType[size];
-
-	for (size_t i = 0; i < size; i++)
+	switch (_containerType)
 	{
-		bufArr[i] = copyStack._pimpl->top();
-		copyStack._pimpl->pop();
+	case StackContainer::List: {
+		_pimpl = new ListStack(*static_cast<ListStack*>(copyStack._pimpl));
+		break;
 	}
-
-	for (size_t i = 0; i < size; i++)
-	{
-		_pimpl->push(bufArr[i]);
-		copyStack._pimpl->push(bufArr[i]);
+	case StackContainer::Vector: {
+		_pimpl = new VectorStack(*(static_cast<VectorStack*>(copyStack._pimpl)));     // конкретизируйте под ваши конструкторы, если надо
+		break;
 	}
-
-	delete[] bufArr;
+	default:
+		throw std::runtime_error("Неизвестный тип контейнера");
+	}
 
 	return *this;
 }
@@ -114,15 +111,16 @@ size_t Stack::size() const
 {
 	return _pimpl->isEmpty();
 }
-/*
+
 int main() {
-	Stack st(StackContainer::Vector);
-	st.push(1);
-	st.push(2);
-	std::cout << st.top();
-	st.pop();
-	std::cout << st.top();
+	Stack st1(StackContainer::Vector);
+	st1.push(1);
+	st1.push(2);
+	Stack st2(StackContainer::Vector);
+	st2 = st1;
+	std::cout << st2.top();
+	st2.pop();
+	std::cout << st2.top();
 	return 0;
 
 }
-*/

@@ -15,3 +15,13 @@
 *.exe
 *.ilk
 *.enc
+Queue/DoubleLinkedList.cpps
+Queue/DoubleLinkedList.h
+Queue/LinkedList.cpp
+Queue/LinkedList.h
+Queue/MyVector.cpp
+Queue/MyVector.h
+Stack/LinkedList.cpp
+Stack/LinkedList.h
+Stack/MyVector.cpp
+Stack/MyVector.h
