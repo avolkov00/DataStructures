@@ -1,6 +1,4 @@
 #include "ListStack.h"
-#include "LinkedList.cpp"
-#include "LinkedList.h"
 
 void ListStack::push(const ValueType& value)
 {

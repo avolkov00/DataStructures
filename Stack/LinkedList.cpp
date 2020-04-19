@@ -1,5 +1,5 @@
-		#include "LinkedList.h"
-
+		
+#include "LinkedList.h"
 #include <cassert>
 
 LinkedList::Node::Node(const ValueType& value, Node* next)

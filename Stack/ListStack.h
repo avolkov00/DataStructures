@@ -1,7 +1,6 @@
 #pragma once
 
 #include "StackImplementation.h"
-#include "LinkedList.cpp"
 #include "LinkedList.h"
 
 // вариант с использованием ранее написанного списка и множественного наследования
@@ -9,7 +8,6 @@
 // множественное наследование можно заменить на композицию
 class ListStack : public StackImplementation, public LinkedList
 {
-	ListStack() {};
 	// добавление в хвост
 	void push(const ValueType& value);
 	// удаление с хвоста

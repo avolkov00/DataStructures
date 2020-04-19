@@ -7,3 +7,8 @@
 *.db
 Stack/Stack/.vs/Stack/v16/.suo
 *.opendb
+*.obj
+*.tlog
+*.idb
+*.pdb
+*.log

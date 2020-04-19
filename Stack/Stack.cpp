@@ -55,7 +55,27 @@ Stack::Stack(const Stack& copyStack)
 
 Stack& Stack::operator=(const Stack& copyStack)
 {
-	// TODO: вставьте здесь оператор return
+	delete _pimpl;
+	_containerType = copyStack._containerType;
+
+	size_t size = copyStack._pimpl->size();
+	auto* bufArr = new ValueType[size];
+
+	for (size_t i = 0; i < size; i++)
+	{
+		bufArr[i] = copyStack._pimpl->top();
+		copyStack._pimpl->pop();
+	}
+
+	for (size_t i = 0; i < size; i++)
+	{
+		_pimpl->push(bufArr[i]);
+		copyStack._pimpl->push(bufArr[i]);
+	}
+
+	delete[] bufArr;
+
+	return *this;
 }
 
 Stack::~Stack()
