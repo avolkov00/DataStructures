@@ -82,4 +82,3 @@ private:
 	ResizeStrategy _strategy;
 	float _coef;
 };
-

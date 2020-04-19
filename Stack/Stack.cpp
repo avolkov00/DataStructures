@@ -114,7 +114,7 @@ size_t Stack::size() const
 {
 	return _pimpl->isEmpty();
 }
-
+/*
 int main() {
 	Stack st(StackContainer::Vector);
 	st.push(1);
@@ -125,3 +125,4 @@ int main() {
 	return 0;
 
 }
+*/
