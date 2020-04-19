@@ -13,7 +13,7 @@ DoubleLinkedList::Node::~Node()
 
 void DoubleLinkedList::Node::insertNext(const ValueType& value)
 {
-	Node* newNode = new Node(value, this, this->next);
+	Node* newNode = new Node(value, this, this->next); 
 	this->next = newNode;
 }
 
