@@ -36,7 +36,7 @@ Stack::Stack(const Stack& copyStack)
 	: Stack(copyStack._containerType) 
 {
 	size_t size = copyStack._pimpl->size();
-	auto* bufArr = new ValueType[size];
+	ValueType* bufArr = new ValueType[size];
 
 	for (size_t i = 0; i < size; i++)
 	{
@@ -60,7 +60,7 @@ Stack& Stack::operator=(const Stack& copyStack)
 	_containerType = copyStack._containerType;
 
 	size_t size = copyStack._pimpl->size();
-	auto* bufArr = new ValueType[size];
+	ValueType* bufArr = new ValueType[size];
 
 	for (size_t i = 0; i < size; i++)
 	{

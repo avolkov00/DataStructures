@@ -12,3 +12,6 @@ Stack/Stack/.vs/Stack/v16/.suo
 *.idb
 *.pdb
 *.log
+Queue/Queue/.vs/Queue/v16/.suo
+*.ilk
+*.exe
