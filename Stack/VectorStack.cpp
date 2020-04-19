@@ -8,6 +8,11 @@ void VectorStack::pop() {
 	this->popBack();
 }
 
+ ValueType& VectorStack::top() 
+{
+	return (*this)[size() - 1];
+}
+
 const ValueType& VectorStack::top() const {
 	return (*this)[size() - 1];
 }

@@ -118,7 +118,7 @@ float MyVector::loadFactor()
 
 ValueType& MyVector::operator[](const size_t i) const
 {
-	if ( i < _size) return _data[i];
+	if (i < _size && i >= 0) return _data[i];
 	else std::cout << "incorrect index" << std::endl;
 }
 
@@ -225,19 +225,14 @@ long long int MyVector::find(const ValueType& value, bool isBegin) const
 }
 
 void MyVector::reserve(const size_t capacity)
-{
-	MyVector Buf(*this);
+{	 
 	if (capacity < _size)
-		_size = _capacity;
-	else
-		_capacity = capacity;
-	ValueType* tempCopy = new ValueType[capacity];
-	for (int i = 0; i < _size; i++)
-	{
-		tempCopy[i] = _data[i];
-	}
+		_size = capacity;
+	ValueType* tmp_data = new ValueType[capacity];
+	memcpy(tmp_data, _data, _size * sizeof(ValueType));
 	delete[]_data;
-	_data = tempCopy;
+	_data = tmp_data;
+	_capacity = capacity;
 }
 
 

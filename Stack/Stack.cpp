@@ -4,6 +4,7 @@
 #include "StackImplementation.h"
 
 #include <stdexcept>
+#include <iostream>
 
 Stack::Stack(StackContainer container)
 	: _containerType(container)
@@ -112,4 +113,15 @@ bool Stack::isEmpty() const
 size_t Stack::size() const
 {
 	return _pimpl->isEmpty();
+}
+
+int main() {
+	Stack st(StackContainer::Vector);
+	st.push(1);
+	st.push(2);
+	std::cout << st.top();
+	st.pop();
+	std::cout << st.top();
+	return 0;
+
 }
