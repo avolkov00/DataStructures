@@ -109,9 +109,9 @@ bool Stack::isEmpty() const
 
 size_t Stack::size() const
 {
-	return _pimpl->isEmpty();
+	return _pimpl->size();
 }
-
+/*
 int main() {
 	Stack st1(StackContainer::Vector);
 	st1.push(1);
@@ -124,3 +124,4 @@ int main() {
 	return 0;
 
 }
+*/

@@ -33,7 +33,7 @@ LinkedList::LinkedList()
 
 }
 
-LinkedList::LinkedList(const LinkedList& copyList)//norm
+LinkedList::LinkedList(const LinkedList& copyList)
 {
 	this->_size = copyList._size;
 	this->_head = new Node(copyList._head->value);
@@ -48,7 +48,7 @@ LinkedList::LinkedList(const LinkedList& copyList)//norm
 	}
 }
 
-LinkedList& LinkedList::operator=(const LinkedList& copyList)//not okay
+LinkedList& LinkedList::operator=(const LinkedList& copyList)
 {
 	if (this == &copyList) {
 		return *this;
