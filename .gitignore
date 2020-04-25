@@ -26,3 +26,5 @@ Stack/LinkedList.h
 Stack/MyVector.cpp
 Stack/MyVector.h
 Queue/DoubleLinkedList.cpp
+*.json
+*.sqlite
