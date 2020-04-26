@@ -18,11 +18,11 @@ void VectorQueue::dequeue() {
 
  ValueType& VectorQueue::front()
 {
-	return (*this)[0];
+	return (*this)[_headIndex];
 }
 
 const ValueType& VectorQueue::front() const {
-	return (*this)[0];
+	return (*this)[_headIndex];
 }
 
 bool VectorQueue::isEmpty() const {

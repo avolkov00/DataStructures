@@ -12,7 +12,7 @@ void DoubleListQueue::dequeue()
 
 ValueType& DoubleListQueue::front()
 {
-	return getNode(0)->value;
+	return getNode(size()-1)->value;
 }
 
 const ValueType& DoubleListQueue::front() const

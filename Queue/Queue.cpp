@@ -121,7 +121,7 @@ size_t Queue::size() const
 {
 	return _pimpl->isEmpty();
 }
-/*
+
 int main() {
 	Queue st(QueueContainer::Vector);
 	st.enqueue(1);
@@ -134,4 +134,3 @@ int main() {
 	return 0;
 
 }
-*/

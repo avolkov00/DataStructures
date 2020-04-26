@@ -1,7 +1,7 @@
 #pragma once
 
 #include "QueueImplementation.h"
-#include "DoubleLinkedList.h"
+#include "../LinkedList/DoubleLinkedList.h"
 
 // вариант с использованием ранее написанного списка и множественного наследования
 // если бы список не был реализован, то было бы наследование только от интерфейса

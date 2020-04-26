@@ -12,7 +12,7 @@ void ListQueue::dequeue()
 
 ValueType& ListQueue::front()
 {
-	return getNode(0)->value;
+	return getNode(size()-1)->value;
 }
 
 const ValueType& ListQueue::front() const
