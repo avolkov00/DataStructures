@@ -17,7 +17,7 @@ ValueType& DoubleListQueue::front()
 
 const ValueType& DoubleListQueue::front() const
 {
-	return getNode(0)->value;
+	return getNode(size() - 1)->value;
 }
 
 bool DoubleListQueue::isEmpty() const

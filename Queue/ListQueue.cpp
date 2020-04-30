@@ -17,7 +17,7 @@ ValueType& ListQueue::front()
 
 const ValueType& ListQueue::front() const
 {
-	return getNode(0)->value;
+	return getNode(size() - 1)->value;
 }
 
 bool ListQueue::isEmpty() const
