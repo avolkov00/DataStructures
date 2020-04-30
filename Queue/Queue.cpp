@@ -62,6 +62,9 @@ Queue::Queue(const Queue& copyQueue)
 
 Queue& Queue::operator=(const Queue& copyQueue)
 {
+	if (this == &copyQueue) {
+		return *this;
+	}
 	delete _pimpl;
 	_containerType = copyQueue._containerType;
 
