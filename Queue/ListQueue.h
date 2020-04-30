@@ -16,7 +16,6 @@ public:
 	// удаление с хвоста
 	void dequeue();
 	// посмотреть элемент в хвосте
-	ValueType& front();
 	const ValueType& front() const;
 	// проверка на пустоту
 	bool isEmpty() const ;

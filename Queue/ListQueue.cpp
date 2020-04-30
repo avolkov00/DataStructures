@@ -10,11 +10,6 @@ void ListQueue::dequeue()
 	removeBack();
 }
 
-ValueType& ListQueue::front()
-{
-	return getNode(size()-1)->value;
-}
-
 const ValueType& ListQueue::front() const
 {
 	return getNode(size() - 1)->value;

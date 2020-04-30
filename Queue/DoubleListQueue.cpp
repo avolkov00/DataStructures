@@ -10,11 +10,6 @@ void DoubleListQueue::dequeue()
 	removeBack();
 }
 
-ValueType& DoubleListQueue::front()
-{
-	return getNode(size()-1)->value;
-}
-
 const ValueType& DoubleListQueue::front() const
 {
 	return getNode(size() - 1)->value;

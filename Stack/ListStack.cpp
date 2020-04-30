@@ -10,11 +10,6 @@ void ListStack::pop()
 	removeFront();
 }
 
-ValueType& ListStack::top()
-{
-	return getNode(0)->value;
-}
-
 const ValueType& ListStack::top() const
 {
 	return getNode(0)->value;
