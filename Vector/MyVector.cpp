@@ -25,7 +25,7 @@ MyVector::MyVector(size_t size, ResizeStrategy strategy, float coef)
 		break;
 
 	default:
-		std::cout << "ERROR: ResizeStrategy unknown" << std::endl;
+		throw std::invalid_argument("Incorrect Strategy");
 		break;
 	}
 	for (size_t index = 0; index < _size; index++) {
@@ -55,7 +55,7 @@ MyVector::MyVector(size_t size, ValueType value, ResizeStrategy strategy, float 
 		break;
 
 	default:
-		std::cout << "ERROR: ResizeStrategy unknown" << std::endl;
+		throw std::out_of_range("Incorrect idx");
 		break;
 	}
 	for (size_t index = 0; index < _size; index++) {
@@ -79,7 +79,6 @@ MyVector& MyVector::operator=(const MyVector& copy)
 
 	if (this == &copy)
 		return *this;
-	if (_data == nullptr) return *this;
 	_size = copy._size;
 	_capacity = copy._capacity;
 	_strategy = copy._strategy;
@@ -123,7 +122,7 @@ float MyVector::loadFactor()
 ValueType& MyVector::operator[](const size_t i) const
 {
 	if (i < _size && i >= 0) return _data[i];
-	else std::cout << "incorrect index" << std::endl;
+	else throw std::out_of_range("Incorrect idx");
 }
 
 void MyVector::pushBack(const ValueType& value)
@@ -142,10 +141,9 @@ void MyVector::pushBack(const ValueType& value)
 void MyVector::insert(const size_t i, const ValueType& value)
 {
 	if (i > _size) {
-		std::cout << "ERROR: INDEX OUT OF RANGE TO INSERT" << std::endl;
+		throw std::out_of_range("Incorrect idx");
 		return;
-	}
-		;
+	};
 	if (loadFactor() >= 1)
 	{
 		if (_strategy == ResizeStrategy::Multiplicative)
@@ -153,7 +151,7 @@ void MyVector::insert(const size_t i, const ValueType& value)
 		else if (_strategy == ResizeStrategy::Additive)
 			reserve(ceil(_capacity + _coef));
 	}
-	ValueType* tempCopy = new ValueType(_capacity);
+	ValueType* tempCopy = new ValueType[_capacity];
 	for (int j = 0; j < i; j++)
 	{
 		tempCopy[j] = _data[j];
@@ -163,17 +161,18 @@ void MyVector::insert(const size_t i, const ValueType& value)
 	{
 		tempCopy[j] = _data[j - 1];
 	}
-	_data = tempCopy;
+	std::swap(_data, tempCopy);
+	delete[] tempCopy;
 	_size++;
 }
 
 void MyVector::insert(const size_t idx, const MyVector& value)
 {
-	if (_capacity - value._size < 0)
+	if (_capacity < value._size + _size)
 	{
 		_capacity = _capacity + value._size;
 	}
-	ValueType* tempCopy = new ValueType(_capacity);
+	ValueType* tempCopy = new ValueType[_capacity];
 	for (int j = 0; j < idx; j++)
 	{
 		tempCopy[j] = _data[j];
@@ -186,12 +185,15 @@ void MyVector::insert(const size_t idx, const MyVector& value)
 	{
 		tempCopy[j] = _data[j - value._size];
 	}
-	_data = tempCopy;
+	std::swap(_data, tempCopy);
+	delete[] tempCopy;
+	_size += value._size;
 }
 
 void MyVector::popBack()
 {
-	_size--;
+	if (_size>0)
+		_size--;
 }
 
 void MyVector::erase(const size_t i)
@@ -206,7 +208,7 @@ void MyVector::erase(const size_t i)
 
 void MyVector::erase(const size_t i, const size_t len)
 {
-	for (size_t j = i; j < _size; j++)
+	for (size_t j = i; j < _size-len; j++)
 	{
 		_data[j] = _data[j + len];
 	}
@@ -233,12 +235,15 @@ void MyVector::reserve(const size_t capacity)
 	if (capacity < _size)
 		_size = capacity;
 	ValueType* tmp_data = new ValueType[capacity];
-	if (_data == nullptr)
+	if (_data == nullptr) {
 		_data = new ValueType[capacity];
-	memcpy(tmp_data, _data, _size * sizeof(ValueType));
-	std::swap(_data, tmp_data);
-	delete[] tmp_data;
-	_capacity = capacity;
+	}
+	else {
+		memcpy(tmp_data, _data, _size * sizeof(ValueType));
+		std::swap(_data, tmp_data);
+		delete[] tmp_data;
+		_capacity = capacity;
+	}
 }
 
 
@@ -339,194 +344,5 @@ MyVector MyVector::sortedSquares(const MyVector& vec, SortedStrategy strategy)
 }
 /*
 int main() {
-	std::cout << "!--- RESIZESTRATEGY::Additive ---!" << std::endl;
-	MyVector vectorFirst(10, ResizeStrategy::Additive, 2);
-	std::cout << "---Constructor---" << std::endl;
-	std::cout << "Expected size and capacity: " << 10 << " " << 12 << std::endl;
-	std::cout << "Received size and capacity: " << vectorFirst.size() << " " << vectorFirst.capacity() << std::endl;
-
-	for (int i = 0; i < vectorFirst.size(); ++i) {
-		vectorFirst[i] = i;
-	}
-	std::cout << "---Initialization---" << std::endl;
-	std::cout << "Expected: " << "0 1 2 3 4 5 6 7 8 9" << std::endl;
-	std::cout << "Received: ";
-	for (size_t i : vectorFirst)
-		std::cout << i << " ";
-	std::cout << std::endl;
-
-	vectorFirst.resize(100, 5);
-	std::cout << "---Resize (bigger than size)---" << std::endl;
-	std::cout << "Expected size and capacity: " << 100 << " " << 102 << std::endl;
-	std::cout << "Received size and capacity: " << vectorFirst.size() << " " << vectorFirst.capacity() << std::endl;
-
-	vectorFirst.resize(15, 0);
-	std::cout << "---Resize (smaller than size)---" << std::endl;
-	std::cout << "Expected size and capacity: " << 15 << " " << 17 << std::endl;
-	std::cout << "Received size and capacity: " << vectorFirst.size() << " " << vectorFirst.capacity() << std::endl;
-
-	std::cout << "---Initialization in resize---" << std::endl;
-	std::cout << "Expected: " << "0 1 2 3 4 5 6 7 8 9 5 5 5 5 5" << std::endl;
-	std::cout << "Received: ";
-	for (size_t i : vectorFirst)
-		std::cout << i << " ";
-	std::cout << std::endl;
-
-	std::cout << "---Copy constructor---" << std::endl;
-	MyVector v1(vectorFirst);
-	std::cout << "Expected: " << "0 1 2 3 4 5 6 7 8 9 5 5 5 5 5" << std::endl;
-	std::cout << "Received: ";
-	for (size_t i : v1)
-		std::cout << i << " ";
-	std::cout << std::endl;
-
-	std::cout << "---Operator =---" << std::endl;
-	MyVector v3 = vectorFirst;
-	std::cout << "Expected: " << "0 1 2 3 4 5 6 7 8 9 5 5 5 5 5" << std::endl;
-	std::cout << "Received: ";
-	for (size_t i : v1)
-		std::cout << i << " ";
-	std::cout << std::endl;
-
-	std::cout << "---Push back & pop back---" << std::endl;
-	vectorFirst.pushBack(4);
-	vectorFirst.popBack();
-	vectorFirst.pushBack(3);
-	vectorFirst.pushBack(2);
-	vectorFirst.popBack();
-	vectorFirst.popBack();
-	vectorFirst.pushBack(1);
-	vectorFirst.pushBack(0);
-	std::cout << "Expected: " << "0 1 2 3 4 5 6 7 8 9 5 5 5 5 5 1 0" << std::endl;
-	std::cout << "Received: ";
-	for (size_t i : vectorFirst)
-		std::cout << i << " ";
-	std::cout << std::endl;
-
-	std::cout << "---Erase (const size_t i)---" << std::endl;
-	vectorFirst.erase(10);
-	std::cout << "Expected: " << "0 1 2 3 4 5 6 7 8 9 5 5 5 5 1 0" << std::endl;
-	std::cout << "Received: ";
-	for (size_t i : vectorFirst)
-		std::cout << i << " ";
-	std::cout << std::endl;
-
-	std::cout << "---Erase (const size_t i, const size_t len)---" << std::endl;
-	vectorFirst.erase(10, 5);
-	std::cout << "Expected: " << "0 1 2 3 4 5 6 7 8 9 0" << std::endl;
-	std::cout << "Received: ";
-	for (size_t i : vectorFirst)
-		std::cout << i << " ";
-	std::cout << std::endl;
-
-	std::cout << "---find(isBegin = true)---" << std::endl;
-	std::cout << "Expected: " << 0 << std::endl;
-	std::cout << "Received: " << vectorFirst.find(0) << std::endl;
-
-	std::cout << "---find(isBegin = false)---" << std::endl;
-	std::cout << "Expected: " << 10 << std::endl;
-	std::cout << "Received: " << vectorFirst.find(0, false) << std::endl;
-
-	std::cout << "---sortedSquares---" << std::endl;
-	vectorFirst.popBack();
-	vectorFirst.sortedSquares(vectorFirst, SortedStrategy::Incr);
-	for (size_t i : vectorFirst)
-		std::cout << i << " ";
-	std::cout << std::endl;
-
-
-	std::cout << std::endl;
-	std::cout << std::endl;
-	std::cout << "!--- RESIZESTRATEGY::Multiplicative ---!" << std::endl;
-	MyVector vectorSecond(10, ResizeStrategy::Multiplicative, 2);
-	std::cout << "---Constructor---" << std::endl;
-	std::cout << "Expected size and capacity: " << 10 << " " << 20 << std::endl;
-	std::cout << "Received size and capacity: " << vectorSecond.size() << " " << vectorSecond.capacity() << std::endl;
-
-	for (int i = 0; i < vectorSecond.size(); ++i) {
-		vectorSecond[i] = i;
-	}
-	std::cout << "---Initialization---" << std::endl;
-	std::cout << "Expected: " << "0 1 2 3 4 5 6 7 8 9" << std::endl;
-	std::cout << "Received: ";
-	for (size_t i : vectorSecond)
-		std::cout << i << " ";
-	std::cout << std::endl;
-
-	vectorSecond.resize(2, 0);
-	std::cout << "---Resize (smaller than size)---" << std::endl;
-	std::cout << "Expected size and capacity: " << 2 << " " << " 4 <= cap < 20" << std::endl;
-	std::cout << "Received size and capacity: " << vectorSecond.size() << " " << vectorSecond.capacity() << std::endl;
-
-	vectorSecond.resize(10, 7);
-	std::cout << "---Resize (bigger than size)---" << std::endl;
-	std::cout << "Expected size and capacity: " << 10 << " " << " 10 <= cap < 20" << std::endl;
-	std::cout << "Received size and capacity: " << vectorSecond.size() << " " << vectorSecond.capacity() << std::endl;
-
-	std::cout << "---Initialization in resize---" << std::endl;
-	std::cout << "Expected: " << "0 1 7 7 7 7 7 7 7 7" << std::endl;
-	std::cout << "Received: ";
-	for (size_t i : vectorSecond)
-		std::cout << i << " ";
-	std::cout << std::endl;
-
-	std::cout << "---Copy constructor---" << std::endl;
-	MyVector v2(vectorSecond);
-	std::cout << "Expected: " << "0 1 7 7 7 7 7 7 7 7" << std::endl;
-	std::cout << "Received: ";
-	for (size_t i : v2)
-		std::cout << i << " ";
-	std::cout << std::endl;
-
-	std::cout << "---Operator =---" << std::endl;
-	MyVector v4 = vectorSecond;
-	std::cout << "Expected: " << "0 1 7 7 7 7 7 7 7 7" << std::endl;
-	std::cout << "Received: ";
-	for (size_t i : v2)
-		std::cout << i << " ";
-	std::cout << std::endl;
-
-	std::cout << "---Push back & pop back---" << std::endl;
-	vectorSecond.pushBack(4);
-	vectorSecond.popBack();
-	vectorSecond.pushBack(3);
-	vectorSecond.pushBack(2);
-	vectorSecond.popBack();
-	vectorSecond.popBack();
-	vectorSecond.pushBack(1);
-	vectorSecond.pushBack(0);
-	std::cout << "Expected: " << "0 1 7 7 7 7 7 7 7 7 1 0" << std::endl;
-	std::cout << "Received: ";
-	for (size_t i : vectorSecond)
-		std::cout << i << " ";
-	std::cout << std::endl;
-
-	std::cout << "---Erase (const size_t i)---" << std::endl;
-	vectorSecond.erase(10);
-	std::cout << "Expected: " << "0 1 7 7 7 7 7 7 7 7 0" << std::endl;
-	std::cout << "Received: ";
-	for (size_t i : vectorSecond)
-		std::cout << i << " ";
-	std::cout << std::endl;
-
-
-	std::cout << "---Erase (const size_t i, const size_t len)---" << std::endl;
-	vectorSecond.erase(2, 8);
-	std::cout << "Expected: " << "0 1 0" << std::endl;
-	std::cout << "Received: ";
-	for (size_t i : vectorSecond)
-		std::cout << i << " ";
-	std::cout << std::endl;
-
-	std::cout << "---find(isBegin = true)---" << std::endl;
-	std::cout << "Expected: " << 0 << std::endl;
-	std::cout << "Received: " << vectorSecond.find(0) << std::endl;
-
-	std::cout << "---find(isBegin = false)---" << std::endl;
-	std::cout << "Expected: " << 2 << std::endl;
-	std::cout << "Received: " << vectorSecond.find(0, false) << std::endl;
-
-	//MyVector::const_iterator it = vectorSecond.cend();
-
 	return 0;
 }*/
