@@ -1,7 +1,8 @@
 #include "LinkedList.h"
 
 #include <cassert>
-
+#include <iostream>
+#include <cstdlib>
 LinkedList::Node::Node(const ValueType& value, Node* next)
 {
 	this->value = value;
@@ -144,7 +145,8 @@ void LinkedList::insert(const size_t pos, const ValueType& value)
 
 void LinkedList::insertAfterNode(Node* node, const ValueType& value)
 {
-		node->insertNext(value);
+	node->insertNext(value);
+	_size++;
 }
 
 void LinkedList::pushBack(const ValueType& value)
@@ -183,6 +185,7 @@ void LinkedList::remove(const size_t pos)
 
 	Node* cur = getNode(pos - 1);
 	cur->removeNext();
+	_size--;
 	return;
 }
 
@@ -206,6 +209,8 @@ void LinkedList::removeBack()
 
 void LinkedList::removeFront()
 {
+	if (_head == nullptr)
+		return;
 	Node* newHead = _head->next;
 	_head = newHead;
 	_size--;
@@ -288,3 +293,11 @@ void LinkedList::forceNodeDelete(Node* node)
 	delete node;
 	forceNodeDelete(nextDeleteNode);
 }
+
+/*void main() {
+	LinkedList a;
+	a.insert(0,1);
+	a.pushBack(2);
+	std::cout << a.size() << "\n";
+
+}*/
