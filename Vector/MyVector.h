@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdlib>
 
 // стратегия изменения capacity
 enum class ResizeStrategy {
@@ -19,8 +20,8 @@ class MyVector
 {
 public:
 
-	MyVector(size_t size = 0, ResizeStrategy = ResizeStrategy::Multiplicative, float coef = 2.0f);
-	MyVector(size_t size, ValueType value, ResizeStrategy = ResizeStrategy::Multiplicative, float coef = 2.0f);
+	MyVector(size_t size = 0, ResizeStrategy = ResizeStrategy::Multiplicative, float coef = 1.5f);
+	MyVector(size_t size, ValueType value, ResizeStrategy = ResizeStrategy::Multiplicative, float coef = 1.5f);
 	
 	MyVector(const MyVector& copy);
 	MyVector& operator=(const MyVector& copy);
