@@ -84,6 +84,8 @@ MyVector& MyVector::operator=(const MyVector& copy)
 	_capacity = copy._capacity;
 	_strategy = copy._strategy;
 	_coef = copy._coef;
+	if (_data == nullptr)
+		_data = new ValueType[_capacity];
 	ValueType* tmp_data = new ValueType[_capacity];
 	for (size_t i = 0; i < _size; ++i) {
 		tmp_data[i] = copy._data[i];
@@ -232,7 +234,7 @@ void MyVector::reserve(const size_t capacity)
 		_size = capacity;
 	ValueType* tmp_data = new ValueType[capacity];
 	if (_data == nullptr)
-		_data = new ValueType[_capacity];
+		_data = new ValueType[capacity];
 	memcpy(tmp_data, _data, _size * sizeof(ValueType));
 	std::swap(_data, tmp_data);
 	delete[] tmp_data;
