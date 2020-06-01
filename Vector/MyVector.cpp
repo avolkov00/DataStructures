@@ -231,6 +231,8 @@ void MyVector::reserve(const size_t capacity)
 	if (capacity < _size)
 		_size = capacity;
 	ValueType* tmp_data = new ValueType[capacity];
+	if (_data == nullptr)
+		_data = new ValueType[_capacity];
 	memcpy(tmp_data, _data, _size * sizeof(ValueType));
 	std::swap(_data, tmp_data);
 	delete[] tmp_data;
