@@ -3,7 +3,7 @@
 #include <iostream>
 #include <cstring>
 #include<utility>
-#include <math.h>
+#include <cmath>
 MyVector::MyVector(size_t size, ResizeStrategy strategy, float coef)
 	:_size(size), _strategy(strategy), _coef(coef)
 {	
@@ -79,18 +79,12 @@ MyVector& MyVector::operator=(const MyVector& copy)
 
 	if (this == &copy)
 		return *this;
+	MyVector buf(copy);
 	_size = copy._size;
 	_capacity = copy._capacity;
 	_strategy = copy._strategy;
 	_coef = copy._coef;
-	if (_data == nullptr)
-		_data = new ValueType[_capacity];
-	ValueType* tmp_data = new ValueType[_capacity];
-	for (size_t i = 0; i < _size; ++i) {
-		tmp_data[i] = copy._data[i];
-	}
-	std::swap(_data, tmp_data);
-	delete[] tmp_data;
+	std::swap(_data, buf._data);
 	return *this;
 }
 
@@ -123,7 +117,7 @@ ValueType& MyVector::operator[](const size_t i) const
 {
 	if (i < _size && i >= 0) return _data[i];
 	else throw std::out_of_range("Incorrect idx");
-}
+ }
 
 void MyVector::pushBack(const ValueType& value)
 {
@@ -144,6 +138,10 @@ void MyVector::insert(const size_t i, const ValueType& value)
 		throw std::out_of_range("Incorrect idx");
 		return;
 	};
+	if (i == _size) {
+		pushBack(value);
+		return;
+	}
 	if (loadFactor() >= 1)
 	{
 		if (_strategy == ResizeStrategy::Multiplicative)
@@ -151,6 +149,7 @@ void MyVector::insert(const size_t i, const ValueType& value)
 		else if (_strategy == ResizeStrategy::Additive)
 			reserve(ceil(_capacity + _coef));
 	}
+
 	ValueType* tempCopy = new ValueType[_capacity];
 	for (int j = 0; j < i; j++)
 	{
@@ -194,32 +193,44 @@ void MyVector::popBack()
 {
 	if (_size>0)
 		_size--;
-	if (loadFactor() < (pow(1.0 / _coef, 2))) {
+	if (loadFactor() <= (1.0 /( _coef*_coef))) {
 		resize(_size);
 	}
 }
 
 void MyVector::erase(const size_t i)
 {
-	for (size_t j = i; j < _size - 1; j++)
-	{
-		_data[j] = _data[j + 1];
+	if (_size == 0) {
+		throw std::out_of_range("Size = 0");
 	}
-	_size--;
-	if (loadFactor() < (pow(1.0 / _coef, 2))) {
-		resize(_size);
+	else {
+		for (size_t j = i; j < _size - 1; j++)
+		{
+			if (j + 1 < _size)
+				_data[j] = _data[j + 1];
+		}
+		_size--;
+		if (loadFactor() <= (1.0 / (_coef * _coef))) {
+			resize(_size);
+		}
 	}
 }
 
 void MyVector::erase(const size_t i, const size_t len)
 {
-	for (size_t j = i; j < _size-len; j++)
-	{
-		_data[j] = _data[j + len];
+	if (i+len>_size) {
+		throw std::out_of_range("Too many to erase");
 	}
-	_size -= len;
-	if (loadFactor() < (pow(1.0 / _coef, 2))) {
-		resize(_size);
+	else {
+		for (size_t j = i; j < i + len; j++)
+		{
+			if (j + len < _size)
+				_data[j] = _data[j + len];
+		}
+		_size -= len;
+		if (loadFactor() <= (1.0 / (_coef * _coef))) {
+			resize(_size);
+		}
 	}
 }
 
@@ -295,6 +306,13 @@ void MyVector::resize(const size_t size, const ValueType value)
 				reserve(ceil(_capacity + _coef));
 		}
 	}
+	else {
+		if (_strategy == ResizeStrategy::Multiplicative)
+			reserve(ceil(_coef * _size));
+		else if (_strategy == ResizeStrategy::Additive)
+			reserve(ceil(_size + _coef));	
+
+	}
 }
 
 void MyVector::clear()
@@ -304,17 +322,18 @@ void MyVector::clear()
 		_data[i] = ValueType();
 	} 
 	_size = 0;
+	resize(1);
 }
 
 MyVector MyVector::sortedSquares(const MyVector& vec, SortedStrategy strategy)
 {
 	MyVector sqr(vec);
 
-	int right = _size - 1;
+	int right = vec._size - 1;
 	int left = 0;
 	int i;
 	if (strategy == SortedStrategy::Decr) i = 0;
-	else if (strategy == SortedStrategy::Incr) i = _size - 1;
+	else if (strategy == SortedStrategy::Incr) i = vec._size - 1;
 	while (left != right)
 	{
 		if (abs(vec[left]) > abs(vec[right]))
@@ -338,11 +357,7 @@ MyVector MyVector::sortedSquares(const MyVector& vec, SortedStrategy strategy)
 			sqr._data[i] = vec[right] * vec[right];
 			if (strategy == SortedStrategy::Decr) i++;
 			else if (strategy == SortedStrategy::Incr) i--;
-			sqr._data[i] = vec[left] * vec[left];
-			left++;
 			right--;
-			if (strategy == SortedStrategy::Decr) i++;
-			else if (strategy == SortedStrategy::Incr) i--;
 		}
 
 	}
@@ -350,22 +365,22 @@ MyVector MyVector::sortedSquares(const MyVector& vec, SortedStrategy strategy)
 
 	return sqr;
 }
-/*
-int main() {
-	MyVector a;
-	a.pushBack(5);
-	a.pushBack(5);
-	a.pushBack(5);
-	a.pushBack(5);
-	a.pushBack(5);
-	a.pushBack(5);	
-	a.pushBack(5);
-	a.popBack();
-	a.popBack();
-	a.popBack();
-	a.popBack();
-	a.popBack();
-	a.popBack();
 
-	return 0;
+int main() {
+	int n = 10;
+	int mas[] = { -5, -5, -4, 1, 1, 3, 3, 5, 10, 11 };
+	MyVector vec;
+	for (size_t i = 0; i < n; ++i) {
+		vec.pushBack(mas[i]);
+	}/*
+	for (auto&& x : MyVector::sortedSquares(vec, SortedStrategy::Incr)) {
+		std::cout << x << " ";
+	}
+	std::cout << std::endl;
+	for (auto&& x : MyVector::sortedSquares(vec, SortedStrategy::Decr)) {
+		std::cout << x << " ";
 }*/
+	vec.erase(2, 8);
+	std::cout << vec[0] << " " << vec[1] << " " << vec.capacity() << " " << vec.size();
+ 	return 0;
+}

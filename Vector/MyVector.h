@@ -19,6 +19,29 @@ using ValueType = double;
 class MyVector
 {
 public:
+	
+	
+	class Iterator
+	{
+	public:
+		Iterator(ValueType* p) : ptr(p) {};
+
+		Iterator operator+ (int n) { return Iterator(ptr + n); }
+		Iterator operator- (int n) { return Iterator(ptr - n); }
+
+		Iterator operator++ () { return ++ptr; }
+		Iterator operator-- () { return --ptr; }
+		Iterator operator++ (int) { return ptr++; }
+		Iterator operator-- (int) { return ptr--; }
+
+		bool operator!=(const Iterator& it) const { return ptr != it.ptr; }
+		bool operator==(const Iterator& it) const { return ptr == it.ptr; }
+
+		ValueType& operator*() const { return *ptr; }
+
+	protected:
+		ValueType* ptr;
+	};	
 
 	MyVector(size_t size = 0, ResizeStrategy = ResizeStrategy::Multiplicative, float coef = 1.5f);
 	MyVector(size_t size, ValueType value, ResizeStrategy = ResizeStrategy::Multiplicative, float coef = 1.5f);
@@ -70,11 +93,13 @@ public:
 
 	// очистка вектора, без изменения capacity
 	void clear();
+	Iterator begin() { return  Iterator(_data); }
+	Iterator end() { return  Iterator(_data+ _size); }
 
-	ValueType* begin() { return _data; }
-	ValueType* end() { return _data + _size; }
+	const ValueType* cbegin() { return  (_data); }
+	const ValueType* cend() { return (_data + _size); }
 
-	MyVector sortedSquares(const MyVector& vec, SortedStrategy strategy);
+	static MyVector sortedSquares(const MyVector& vec, SortedStrategy strategy);
 
 private:
 	ValueType* _data;

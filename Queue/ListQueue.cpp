@@ -17,11 +17,11 @@ const ValueType& ListQueue::front() const
 
 bool ListQueue::isEmpty() const
 {
-	if (size() == 0) return true;
+	if (LinkedList::size() == 0) return true;
 	return false;
 }
 
 size_t ListQueue::size() const
 {
-	return size();
+	return LinkedList::size();
 }
