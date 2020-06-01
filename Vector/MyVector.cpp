@@ -194,6 +194,9 @@ void MyVector::popBack()
 {
 	if (_size>0)
 		_size--;
+	if (loadFactor() < (pow(1.0 / _coef, 2))) {
+		resize(_size);
+	}
 }
 
 void MyVector::erase(const size_t i)
@@ -203,7 +206,9 @@ void MyVector::erase(const size_t i)
 		_data[j] = _data[j + 1];
 	}
 	_size--;
-
+	if (loadFactor() < (pow(1.0 / _coef, 2))) {
+		resize(_size);
+	}
 }
 
 void MyVector::erase(const size_t i, const size_t len)
@@ -213,6 +218,9 @@ void MyVector::erase(const size_t i, const size_t len)
 		_data[j] = _data[j + len];
 	}
 	_size -= len;
+	if (loadFactor() < (pow(1.0 / _coef, 2))) {
+		resize(_size);
+	}
 }
 
 long long int MyVector::find(const ValueType& value, bool isBegin) const
@@ -344,5 +352,20 @@ MyVector MyVector::sortedSquares(const MyVector& vec, SortedStrategy strategy)
 }
 /*
 int main() {
+	MyVector a;
+	a.pushBack(5);
+	a.pushBack(5);
+	a.pushBack(5);
+	a.pushBack(5);
+	a.pushBack(5);
+	a.pushBack(5);	
+	a.pushBack(5);
+	a.popBack();
+	a.popBack();
+	a.popBack();
+	a.popBack();
+	a.popBack();
+	a.popBack();
+
 	return 0;
 }*/
