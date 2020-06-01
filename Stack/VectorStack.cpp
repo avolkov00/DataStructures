@@ -1,5 +1,6 @@
 #include "VectorStack.h"
-#
+#include <cstdlib>
+
 void VectorStack::push(const ValueType& value) {
 	this->pushBack(value);
 }
@@ -18,7 +19,8 @@ const ValueType& VectorStack::top() const {
 }
 
 bool VectorStack::isEmpty() const {
-	return MyVector::size();
+	if (MyVector::size() == 0) return true;
+	return false;
 }
 
 size_t VectorStack::size() const {

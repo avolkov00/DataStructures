@@ -1,7 +1,8 @@
 #pragma once
+#include <cstdlib>
 
 #include "StackImplementation.h"
-#include "../LinkedList/LinkedList.h"
+#include "LinkedList.h"
 
 // вариант с использованием ранее написанного списка и множественного наследования
 // если бы список не был реализован, то было бы наследование только от интерфейса
@@ -9,10 +10,8 @@
 class ListStack : public StackImplementation, public LinkedList
 {
 public:
-	ListStack() {};
-	ListStack(ListStack& list)
-		:LinkedList(list)
-	{};
+	ListStack();
+	ListStack(const ListStack& copyList);
 	// добавление в хвост
 	void push(const ValueType& value);
 	// удаление с хвоста

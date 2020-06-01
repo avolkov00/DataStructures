@@ -2,6 +2,7 @@
 #include "ListStack.h"
 #include "VectorStack.h"
 #include "StackImplementation.h"
+#include <cstdlib>
 
 #include <stdexcept>
 #include <iostream>
@@ -92,15 +93,11 @@ void Stack::pop()
 	_pimpl->pop();
 }
 
-ValueType& Stack::top()
-{
-	return _pimpl->top();
-}
-
 const ValueType& Stack::top() const
 {
 	return _pimpl->top();
 }
+
 
 bool Stack::isEmpty() const
 {

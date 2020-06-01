@@ -1,4 +1,5 @@
 #include "LinkedList.h"
+#include <cstdlib>
 
 #include <cassert>
 #include <iostream>
@@ -201,10 +202,15 @@ void LinkedList::removeNextNode(Node* node)
 
 void LinkedList::removeBack()
 {
-	Node* cur = getNode(_size - 2);
-	delete cur->next;
-	cur->next = nullptr;
-	_size--;
+	if (_size == 1) {
+		_head = nullptr;
+	}
+	else {
+		Node* cur = getNode(_size - 2);
+		delete cur->next;
+		cur->next = nullptr;
+		_size--;
+	};
 }
 
 void LinkedList::removeFront()

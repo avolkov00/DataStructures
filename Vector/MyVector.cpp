@@ -1,9 +1,7 @@
-#include "../Vector/MyVector.h"
+#include "MyVector.h"
 
 #include <iostream>
-#include <cmath>
 #include <cstring>
-#include <cstdlib>
 #include<utility>
 #include <math.h>
 MyVector::MyVector(size_t size, ResizeStrategy strategy, float coef)
@@ -270,7 +268,6 @@ void MyVector::resize(const size_t size, const ValueType value)
 		}
 		std::swap(_data, tempCopy);
 		delete[] tempCopy;
-		tempCopy = nullptr;
 		_capacity = size;
 		_size = size;
 		if (loadFactor() >= 1)
