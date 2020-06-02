@@ -90,7 +90,12 @@ void Stack::push(const ValueType& value)
 
 void Stack::pop()
 {
-	_pimpl->pop();
+	if (Stack::size() == 0) {
+		throw std::out_of_range("size = 0");
+	}
+	else {
+		_pimpl->pop();
+	}
 }
 
 const ValueType& Stack::top() const
