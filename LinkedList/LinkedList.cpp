@@ -23,10 +23,15 @@ void LinkedList::Node::insertNext(const ValueType& value)
 
 void LinkedList::Node::removeNext()
 {
-	Node* removeNode = this->next;
-	Node* newNext = removeNode->next;
-	delete removeNode;
-	this->next = newNext;
+	if (this->next == nullptr) {
+		throw std::out_of_range("Next element do not exist");
+	}
+	else {
+		Node* removeNode = this->next;
+		Node* newNext = removeNode->next;
+		delete removeNode;
+		this->next = newNext;
+	}
 }
 
 LinkedList::LinkedList()
@@ -107,13 +112,10 @@ ValueType& LinkedList::operator[](const size_t pos) const
 
 LinkedList::Node* LinkedList::getNode(const size_t pos) const
 {
-	if (pos < 0) {
-		assert(pos < 0);
-	}
-	else if (pos >= this->_size) {
-		assert(pos >= this->_size);
-	}
+	if ((pos < 0) || (pos >= this->_size)) {
+		throw std::out_of_range("Invalid index");
 
+	}
 	Node* bufNode = this->_head;
 	for (int i = 0; i < pos; ++i) {
 		bufNode = bufNode->next;
@@ -124,11 +126,9 @@ LinkedList::Node* LinkedList::getNode(const size_t pos) const
 
 void LinkedList::insert(const size_t pos, const ValueType& value)
 {
-	if (pos < 0) {
-		assert(pos < 0);
-	}
-	else if (pos > this->_size) {
-		assert(pos > this->_size);
+	if ((pos < 0) || (pos > this->_size)) {
+		throw std::out_of_range("Invalid index");
+
 	}
 
 	if (pos == 0) {
@@ -167,23 +167,19 @@ void LinkedList::pushFront(const ValueType& value)
 
 void LinkedList::remove(const size_t pos)
 {
-	if (pos > _size - 1)
-	{
-		return;
+	if ((pos < 0) || (pos >= this->_size)) {
+		throw std::out_of_range("Invalid index");
 	}
-
 	if (pos == 0)
 	{
 		removeFront();
 		return;
 	}
-
 	if (pos == _size - 1)
 	{
 		removeBack();
 		return;
 	}
-
 	Node* cur = getNode(pos - 1);
 	cur->removeNext();
 	_size--;
@@ -197,13 +193,18 @@ void LinkedList::removeNextNode(Node* node)
 		node->removeNext();
 		_size--;
 	}
-	return;
+	else {
+		throw std::out_of_range("Invalid index");
+	}
+	return; 
 }
 
 void LinkedList::removeBack()
 {
 	if (_size == 1) {
+		delete _head;
 		_head = nullptr;
+		_size = 0;
 	}
 	else {
 		Node* cur = getNode(_size - 2);
@@ -218,6 +219,7 @@ void LinkedList::removeFront()
 	if (_head == nullptr)
 		return;
 	Node* newHead = _head->next;
+	delete _head;
 	_head = newHead;
 	_size--;
 }
@@ -248,7 +250,7 @@ LinkedList::Node* LinkedList::findNode(const ValueType& value) const
 
 void LinkedList::reverse()
 {
-	Node* prev = NULL;
+	Node* prev = nullptr;
 	Node* cur = _head;
 	Node* next = _head->next;
 	while (next != NULL)
