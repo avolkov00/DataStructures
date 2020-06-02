@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdlib>
 
 // приходится тянуть ValueType во все места,
 // наглядная демонстрация того, почему с шаблонами было бы легче.
@@ -13,7 +14,6 @@ public:
 	// удаление с хвоста
 	virtual void dequeue() = 0;
 	// посмотреть элемент в хвосте
-	virtual ValueType& front() = 0;
 	virtual const ValueType& front() const = 0;
 	// проверка на пустоту
 	virtual bool isEmpty() const = 0;

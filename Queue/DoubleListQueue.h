@@ -1,16 +1,17 @@
 #pragma once
+#include <cstdlib>
 
 #include "QueueImplementation.h"
-#include "../LinkedList/DoubleLinkedList.h"
+#include "DoubleLinkedList.h"
 
 // вариант с использованием ранее написанного списка и множественного наследования
 // если бы список не был реализован, то было бы наследование только от интерфейса
 // множественное наследование можно заменить на композицию
-class DoubleListQueue : public QueueImplementation, public DoubleLinkedList
+class DoubleListQueue : public QueueImplementation, public DoublyLinkedList 
 {
 public:
 	DoubleListQueue() {};
-	DoubleListQueue(DoubleListQueue& que) : DoubleLinkedList(que) {};
+	DoubleListQueue(DoubleListQueue& que) : DoublyLinkedList (que) {};
 	// добавление в хвост
 	void enqueue(const ValueType& value);
 	// удаление с хвоста

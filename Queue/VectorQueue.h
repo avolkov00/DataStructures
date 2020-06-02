@@ -1,6 +1,8 @@
 #pragma once
 #include "QueueImplementation.h"
-#include "../Vector/MyVector.h"
+#include "MyVector.h"
+#include <cstdlib>
+
 // вариант с использованием ранее написанного вектора и множественного наследования
 // если бы вектор не был реализован, то было бы наследование только от интерфейса
 // множественное наследование можно заменить на композицию
@@ -15,7 +17,6 @@ public:
 	// удаление с хвоста
 	void dequeue();
 	// посмотреть элемент в хвосте
-	ValueType& front();
 	const ValueType& front() const;
 	// проверка на пустоту
 	bool isEmpty() const;

@@ -1,27 +1,28 @@
 #include "DoubleListQueue.h"
+#include <cstdlib>
 
 void DoubleListQueue::enqueue(const ValueType& value)
 {
-	pushFront(value);
+	DoublyLinkedList::pushFront(value);
 }
 
 void DoubleListQueue::dequeue()
 {
-	removeBack();
+	DoublyLinkedList::removeBack();
 }
 
 const ValueType& DoubleListQueue::front() const
 {
-	return getNode(size() - 1)->value;
+	return getNode(DoublyLinkedList::size() - 1)->value;
 }
 
 bool DoubleListQueue::isEmpty() const
 {
-	if (size() == 0) return true;
+	if (DoublyLinkedList ::size() == 0) return true;
 	return false;
 }
 
 size_t DoubleListQueue::size() const
 {
-	return size();
+	return DoublyLinkedList ::size();
 }

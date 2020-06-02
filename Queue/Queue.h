@@ -1,6 +1,7 @@
 #pragma once
 // Уровень абстракции
 // клиентский код подключает именно этот хедер
+#include <cstdlib>
 
 // тип значений в стеке
 using ValueType = double;
@@ -8,8 +9,8 @@ using ValueType = double;
 // на основе какого контейнера работает стек
 enum class QueueContainer {
 	Vector = 0,
-	List,
-	DoubleList
+	SinglyLinkedList,
+	DoublyLinkedList
 	// можно дополнять другими контейнерами
 };
 
@@ -39,7 +40,6 @@ public:
 	// удаление с хвоста
 	void dequeue();
 	// посмотреть элемент в хвосте
-	ValueType& front();
 	const ValueType& front() const;
 	// проверка на пустоту
 	bool isEmpty() const;

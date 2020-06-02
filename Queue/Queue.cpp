@@ -3,6 +3,7 @@
 #include "DoubleListQueue.h"
 #include "VectorQueue.h"
 #include "QueueImplementation.h"
+#include <cstdlib>
 
 #include <stdexcept>
 #include <iostream>
@@ -12,7 +13,7 @@ Queue::Queue(QueueContainer container)
 {
 	switch (container)
 	{
-	case QueueContainer::List: {
+	case QueueContainer::SinglyLinkedList: {
 		_pimpl = new ListQueue();	// конкретизируйте под ваши конструкторы, если надо
 		break;
 	}
@@ -20,7 +21,7 @@ Queue::Queue(QueueContainer container)
 		_pimpl = new VectorQueue();     // конкретизируйте под ваши конструкторы, если надо
 		break;
 	}
-	case QueueContainer::DoubleList: {
+	case QueueContainer::DoublyLinkedList: {
 		_pimpl = new DoubleListQueue();	// конкретизируйте под ваши конструкторы, если надо
 		break;
 	}
@@ -42,7 +43,7 @@ Queue::Queue(const Queue& copyQueue)
 {
 	switch (_containerType)
 	{
-	case QueueContainer::List: {
+	case QueueContainer::SinglyLinkedList: {
 		_pimpl = new ListQueue(*static_cast<ListQueue*>(copyQueue._pimpl));
 		break;
 	}
@@ -50,7 +51,7 @@ Queue::Queue(const Queue& copyQueue)
 		_pimpl = new VectorQueue(*(static_cast<VectorQueue*>(copyQueue._pimpl)));     // конкретизируйте под ваши конструкторы, если надо
 		break;
 	}
-	case QueueContainer::DoubleList:{
+	case QueueContainer::DoublyLinkedList:{
 		_pimpl = new DoubleListQueue(*(static_cast<DoubleListQueue*>(copyQueue._pimpl)));     // конкретизируйте под ваши конструкторы, если надо
 		break;
 	}
@@ -70,7 +71,7 @@ Queue& Queue::operator=(const Queue& copyQueue)
 
 	switch (_containerType)
 	{
-	case QueueContainer::List: {
+	case QueueContainer::SinglyLinkedList: {
 		_pimpl = new ListQueue(*static_cast<ListQueue*>(copyQueue._pimpl));
 		break;
 	}
@@ -78,7 +79,7 @@ Queue& Queue::operator=(const Queue& copyQueue)
 		_pimpl = new VectorQueue(*(static_cast<VectorQueue*>(copyQueue._pimpl)));     // конкретизируйте под ваши конструкторы, если надо
 		break;
 	}
-	case QueueContainer::DoubleList:{
+	case QueueContainer::DoublyLinkedList:{
 	   _pimpl = new DoubleListQueue(*(static_cast<DoubleListQueue*>(copyQueue._pimpl)));     // конкретизируйте под ваши конструкторы, если надо
 	   break;
 	}
@@ -102,12 +103,12 @@ void Queue::enqueue(const ValueType& value)
 
 void Queue::dequeue()
 {
-	_pimpl->dequeue();
-}
-
-ValueType& Queue::front()
-{
-	return _pimpl->front();
+	if (Queue::size() == 0) {
+		throw std::out_of_range("size = 0");
+	}
+	else {
+		_pimpl->dequeue();
+	}
 }
 
 const ValueType& Queue::front() const
@@ -122,7 +123,7 @@ bool Queue::isEmpty() const
 
 size_t Queue::size() const
 {
-	return _pimpl->isEmpty();
+	return _pimpl->size();
 }
 
 int main() {
