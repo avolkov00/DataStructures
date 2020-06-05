@@ -1,4 +1,5 @@
 #include "MyVector.h"
+#include <cstdlib>
 
 #include <iostream>
 #include <cstring>
@@ -128,6 +129,7 @@ void MyVector::pushBack(const ValueType& value)
 		else if (_strategy == ResizeStrategy::Additive)
 			reserve(ceil(_capacity + _coef));
 	}
+	if (_size == 0) reserve(1);
 	_data[_size] = value;
 	_size++;
 }
@@ -322,7 +324,6 @@ void MyVector::clear()
 		_data[i] = ValueType();
 	} 
 	_size = 0;
-	resize(1);
 }
 
 MyVector MyVector::sortedSquares(const MyVector& vec, SortedStrategy strategy)
@@ -365,22 +366,22 @@ MyVector MyVector::sortedSquares(const MyVector& vec, SortedStrategy strategy)
 
 	return sqr;
 }
-
+/*
 int main() {
 	int n = 10;
 	int mas[] = { -5, -5, -4, 1, 1, 3, 3, 5, 10, 11 };
 	MyVector vec;
 	for (size_t i = 0; i < n; ++i) {
 		vec.pushBack(mas[i]);
-	}/*
+	}
 	for (auto&& x : MyVector::sortedSquares(vec, SortedStrategy::Incr)) {
 		std::cout << x << " ";
 	}
 	std::cout << std::endl;
 	for (auto&& x : MyVector::sortedSquares(vec, SortedStrategy::Decr)) {
 		std::cout << x << " ";
-}*/
+}
 	vec.erase(2, 8);
 	std::cout << vec[0] << " " << vec[1] << " " << vec.capacity() << " " << vec.size();
  	return 0;
-}
+}*/

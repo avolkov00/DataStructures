@@ -39,30 +39,6 @@ Stack::Stack(const Stack& copyStack)
 	switch (_containerType)
 	{
 	case StackContainer::List: {
-		_pimpl = new ListStack(*dynamic_cast<ListStack*>(copyStack._pimpl));
-		break;
-	}
-	case StackContainer::Vector: {
-		_pimpl = new VectorStack(*(dynamic_cast<VectorStack*>(copyStack._pimpl)));     // конкретизируйте под ваши конструкторы, если надо
-		break;
-	}
-	default:
-		throw std::runtime_error("Неизвестный тип контейнера");
-	}
-}
-
-
-Stack& Stack::operator=(const Stack& copyStack)
-{
-	if (this == &copyStack) {
-		return *this;
-	}
-	delete _pimpl;
-	_containerType = copyStack._containerType;
-
-	switch (_containerType)
-	{
-	case StackContainer::List: {
 		_pimpl = new ListStack(*static_cast<ListStack*>(copyStack._pimpl));
 		break;
 	}
@@ -73,8 +49,32 @@ Stack& Stack::operator=(const Stack& copyStack)
 	default:
 		throw std::runtime_error("Неизвестный тип контейнера");
 	}
+}
 
-	return *this;
+
+Stack& Stack::operator=(const Stack& copyStack)
+{
+	if (&copyStack._pimpl == &this->_pimpl) {
+		return *this;	
+	}
+	else {
+		delete _pimpl;
+		_containerType = copyStack._containerType;
+		switch (_containerType)
+		{
+		case StackContainer::List: {
+			_pimpl = new ListStack(*static_cast<ListStack*>(copyStack._pimpl));
+			break;
+		}
+		case StackContainer::Vector: {
+			_pimpl = new VectorStack(*(static_cast<VectorStack*>(copyStack._pimpl)));     // конкретизируйте под ваши конструкторы, если надо
+			break;
+		}
+		default:
+			throw std::runtime_error("Неизвестный тип контейнера");
+		}
+		return *this;
+	}
 }
 
 Stack::~Stack()
@@ -108,17 +108,33 @@ size_t Stack::size() const
 {
 	return _pimpl->size();
 }
-/*
+
 int main() {
 	Stack st1(StackContainer::Vector);
-	st1.push(1);
-	st1.push(2);
+	for (int i = 0; i < 10; i++) {
+		st1.push(i);
+	}
+	std::cout << st1.size() << std::endl;
+
 	Stack st2(StackContainer::Vector);
+	for (int i = 10; i < 13; i++) {
+		st2.push(i);
+	}
+	std::cout << st2.size() << std::endl;
+
 	st2 = st1;
-	std::cout << st2.top();
-	st2.pop();
-	std::cout << st2.top();
+	std::cout << st2.size() << std::endl;
+
+	for (int i = 0; i < 10; i++) {
+		st2.pop();
+	}
+	std::cout << st2.size() << std::endl;
+
+	for (int i = 20; i < 30; i++) {
+		st2.push(i);
+	}
+	st2 = st2;
+	std::cout << st2.size() << std::endl;
 	return 0;
 
 }
-*/

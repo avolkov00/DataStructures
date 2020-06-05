@@ -12,12 +12,7 @@ void VectorStack::pop() {
 	}
 	else {
 		this->popBack();
-	}
-}
-
- ValueType& VectorStack::top() 
-{
-	return (*this)[size() - 1];
+	}	
 }
 
 const ValueType& VectorStack::top() const {
