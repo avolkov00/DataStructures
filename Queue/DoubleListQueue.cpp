@@ -1,6 +1,6 @@
 #include "DoubleListQueue.h"
 #include <cstdlib>
-
+#include <stdexcept>
 void DoubleListQueue::enqueue(const ValueType& value)
 {
 	DoublyLinkedList::pushFront(value);
@@ -8,7 +8,12 @@ void DoubleListQueue::enqueue(const ValueType& value)
 
 void DoubleListQueue::dequeue()
 {
-	DoublyLinkedList::removeBack();
+	if (DoubleListQueue::size() == 0) {
+		throw std::out_of_range("size = 0");
+	}
+	else {
+		DoublyLinkedList::removeBack();
+	}
 }
 
 const ValueType& DoubleListQueue::front() const

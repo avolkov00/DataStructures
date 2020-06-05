@@ -1,5 +1,7 @@
 #include "ListStack.h"
 #include <cstdlib>
+#include <stdexcept>
+
 ListStack::ListStack() {}
 
 ListStack::ListStack(const ListStack& copyList) : LinkedList(copyList) {}
@@ -11,7 +13,12 @@ void ListStack::push(const ValueType& value)
 
 void ListStack::pop()
 {
-	removeFront();
+	if (ListStack::size() == 0) {
+		throw std::out_of_range("size = 0");
+	}
+	else {
+		removeFront();
+	}
 }
 
 const ValueType& ListStack::top() const

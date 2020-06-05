@@ -1,12 +1,18 @@
 #include "VectorStack.h"
 #include <cstdlib>
+#include <stdexcept>
 
 void VectorStack::push(const ValueType& value) {
 	this->pushBack(value);
 }
 
 void VectorStack::pop() {
-	this->popBack();
+	if (VectorStack::size() == 0) {
+		throw std::out_of_range("size = 0");
+	}
+	else {
+		this->popBack();
+	}
 }
 
  ValueType& VectorStack::top() 

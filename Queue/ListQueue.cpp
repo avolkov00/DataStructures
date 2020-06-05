@@ -1,5 +1,6 @@
 #include "ListQueue.h"
 #include <cstdlib>
+#include <stdexcept>
 
 void ListQueue::enqueue(const ValueType& value)
 {
@@ -8,7 +9,12 @@ void ListQueue::enqueue(const ValueType& value)
 
 void ListQueue::dequeue()
 {
-	SinglyLinkedList::removeBack();
+	if (ListQueue::size() == 0) {
+		throw std::out_of_range("size = 0");
+	}
+	else {
+		SinglyLinkedList::removeBack();
+	}
 }
 
 const ValueType& ListQueue::front() const

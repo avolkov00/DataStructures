@@ -72,15 +72,15 @@ Queue& Queue::operator=(const Queue& copyQueue)
 	switch (_containerType)
 	{
 	case QueueContainer::SinglyLinkedList: {
-		_pimpl = new ListQueue(*static_cast<ListQueue*>(copyQueue._pimpl));
+		_pimpl = new ListQueue(*dynamic_cast<ListQueue*>(copyQueue._pimpl));
 		break;
 	}
 	case QueueContainer::Vector: {
-		_pimpl = new VectorQueue(*(static_cast<VectorQueue*>(copyQueue._pimpl)));     // конкретизируйте под ваши конструкторы, если надо
+		_pimpl = new VectorQueue(*(dynamic_cast<VectorQueue*>(copyQueue._pimpl)));     // конкретизируйте под ваши конструкторы, если надо
 		break;
 	}
 	case QueueContainer::DoublyLinkedList:{
-	   _pimpl = new DoubleListQueue(*(static_cast<DoubleListQueue*>(copyQueue._pimpl)));     // конкретизируйте под ваши конструкторы, если надо
+	   _pimpl = new DoubleListQueue(*(dynamic_cast<DoubleListQueue*>(copyQueue._pimpl)));     // конкретизируйте под ваши конструкторы, если надо
 	   break;
 	}
 	default:
@@ -103,12 +103,9 @@ void Queue::enqueue(const ValueType& value)
 
 void Queue::dequeue()
 {
-	if (Queue::size() == 0) {
-		throw std::out_of_range("size = 0");
-	}
-	else {
-		_pimpl->dequeue();
-	}
+	
+	_pimpl->dequeue();
+
 }
 
 const ValueType& Queue::front() const

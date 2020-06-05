@@ -39,11 +39,11 @@ Stack::Stack(const Stack& copyStack)
 	switch (_containerType)
 	{
 	case StackContainer::List: {
-		_pimpl = new ListStack(*static_cast<ListStack*>(copyStack._pimpl));
+		_pimpl = new ListStack(*dynamic_cast<ListStack*>(copyStack._pimpl));
 		break;
 	}
 	case StackContainer::Vector: {
-		_pimpl = new VectorStack(*(static_cast<VectorStack*>(copyStack._pimpl)));     // конкретизируйте под ваши конструкторы, если надо
+		_pimpl = new VectorStack(*(dynamic_cast<VectorStack*>(copyStack._pimpl)));     // конкретизируйте под ваши конструкторы, если надо
 		break;
 	}
 	default:
@@ -90,12 +90,7 @@ void Stack::push(const ValueType& value)
 
 void Stack::pop()
 {
-	if (Stack::size() == 0) {
-		throw std::out_of_range("size = 0");
-	}
-	else {
 		_pimpl->pop();
-	}
 }
 
 const ValueType& Stack::top() const
