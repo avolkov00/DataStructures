@@ -1,5 +1,4 @@
 #include "MyVector.h"
-#include <cstdlib>
 
 #include <iostream>
 #include <cstring>
@@ -78,7 +77,7 @@ MyVector::MyVector(const MyVector& copy)
 MyVector& MyVector::operator=(const MyVector& copy)
 {
 
-	if (this == &copy)
+	if (this->_data == copy._data)
 		return *this;
 	MyVector buf(copy);
 	_size = copy._size;
@@ -122,6 +121,9 @@ ValueType& MyVector::operator[](const size_t i) const
 
 void MyVector::pushBack(const ValueType& value)
 {
+	if (_capacity == 0) {
+		reserve(1);
+	}
 	if (loadFactor() >= 1)
 	{
 		if (_strategy == ResizeStrategy::Multiplicative)
@@ -129,7 +131,6 @@ void MyVector::pushBack(const ValueType& value)
 		else if (_strategy == ResizeStrategy::Additive)
 			reserve(ceil(_capacity + _coef));
 	}
-	if (_size == 0) reserve(1);
 	_data[_size] = value;
 	_size++;
 }
