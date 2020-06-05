@@ -216,6 +216,9 @@ void MyVector::erase(const size_t i)
 		if (loadFactor() <= (1.0 / (_coef * _coef))) {
 			resize(_size);
 		}
+		if (_capacity == 0) {
+			reserve(1);
+		}
 	}
 }
 
@@ -233,6 +236,9 @@ void MyVector::erase(const size_t i, const size_t len)
 		_size -= len;
 		if (loadFactor() <= (1.0 / (_coef * _coef))) {
 			resize(_size);
+		}
+		if (_capacity == 0) {
+			reserve(1);
 		}
 	}
 }
