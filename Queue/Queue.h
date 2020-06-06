@@ -45,9 +45,10 @@ public:
 	bool isEmpty() const;
 	// размер 
 	size_t size() const;
+	QueueImplementation* _pimpl = nullptr;
+
 private:
 	// указатель на имплементацию (уровень реализации)
-	QueueImplementation* _pimpl = nullptr;
 	// тип контейнера, наверняка понадобится
 	QueueContainer _containerType;
 };

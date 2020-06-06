@@ -12,12 +12,8 @@ void VectorQueue::dequeue() {
 	}
 	else {
 		_headIndex++;
-		if (float(_headIndex / MyVector::size())  > float(1/2)) {
-			MyVector bufVector(*this);
-			MyVector::clear();
-			for (size_t i = _headIndex; i < bufVector.size(); i++) {
-				MyVector::pushBack(bufVector[i]);
-			}
+		if ((float(VectorQueue::size()) / MyVector::capacity())  < (float(1)/((_coef)*(_coef)))){
+			MyVector::erase(0, _headIndex);
 			_headIndex = 0;
 		}
 	}

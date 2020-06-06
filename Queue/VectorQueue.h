@@ -9,7 +9,9 @@
 class VectorQueue : public QueueImplementation, public MyVector
 {
 public:
-	VectorQueue() : _headIndex(0) {};
+	VectorQueue() : _headIndex(0) {
+		MyVector(0, ResizeStrategy::Multiplicative, _coef);
+	};
 	VectorQueue(VectorQueue& que) : _headIndex(que._headIndex),MyVector(que) {};
 
 	// добавление в хвост
@@ -26,5 +28,6 @@ public:
 	~VectorQueue() override {};
 private:
 	size_t _headIndex;
+	float _coef = 1.5;
 };
 
