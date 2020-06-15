@@ -1,4 +1,4 @@
-﻿#include "../LinkedList/DoubleLinkedList.h"
+﻿#include "DoubleLinkedList.h"
 
 #include <cassert>
 #include <stdexcept>
@@ -110,11 +110,9 @@ ValueType& DoubleLinkedList::operator[](const size_t pos) const
 
 DoubleLinkedList::Node* DoubleLinkedList::getNode(const size_t pos) const
 {
-	if (pos < 0) {
-		assert(pos < 0);
-	}
-	else if (pos >= this->_size) {
-		assert(pos >= this->_size);
+	if ((pos < 0) || (pos >= this->_size)) {
+		throw std::out_of_range("Invalid index");
+
 	}
 
 	size_t halfSize = _size / 2;
@@ -136,13 +134,10 @@ DoubleLinkedList::Node* DoubleLinkedList::getNode(const size_t pos) const
 
 void DoubleLinkedList::insert(const size_t pos, const ValueType& value)
 {
-	if (pos < 0) {
-		assert(pos < 0);
-	}
-	else if (pos > this->_size) {
-		assert(pos > this->_size);
-	}
+	if ((pos < 0) || (pos > this->_size)) {
+		throw std::out_of_range("Invalid index");
 
+	}
 	if (pos == 0)
 		pushFront(value);
 
@@ -186,6 +181,9 @@ void DoubleLinkedList::pushFront(const ValueType& value)
 
 void DoubleLinkedList::remove(const size_t pos)
 {
+	if ((pos < 0) || (pos >= this->_size)) {
+		throw std::out_of_range("Invalid index");
+	}
 	if (pos == 0) {
 		removeFront();
 	}
@@ -205,19 +203,24 @@ void DoubleLinkedList::remove(const size_t pos)
 
 void DoubleLinkedList::removeNextNode(Node* node)
 {
-	Node* curentDeleteNode = node->next;
-	Node* curentNode = curentDeleteNode->next;
-	node->next = curentNode;
-	curentNode->prev = node;
+	if (node->next != nullptr) {
+		Node* curentDeleteNode = node->next;
+		Node* curentNode = curentDeleteNode->next;
+		node->next = curentNode;
+		curentNode->prev = node;
 
-	delete curentDeleteNode;
-	--_size;
+		delete curentDeleteNode;
+		--_size;
+	}
+	else {
+		throw std::out_of_range("Invalid index");
+	}
 }
 
 void DoubleLinkedList::removeBack()
 {
 	if (_tail == nullptr)
-		return;
+		throw std::out_of_range("Invalid index");
 
 	Node* temp = _tail;
 	_tail = _tail->prev;
@@ -228,7 +231,7 @@ void DoubleLinkedList::removeBack()
 void DoubleLinkedList::removeFront()
 {
 	if (_head == nullptr)
-		return;
+		throw std::out_of_range("Invalid index");
 
 	Node* temp = _head;
 	_head = _head->next;
