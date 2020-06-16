@@ -43,9 +43,9 @@ public:
 	Node* findMaxKey();
 	Node* findMinKey();
 
-	size_t size(const RBTree& tree);
+	size_t size();
 
-	bool isEmpty(const RBTree& tree);
+	bool isEmpty();
 
 	Node* uncle(Node* cur) const;
 	Node* grandpa(Node* cur) const;
@@ -602,12 +602,12 @@ typename RBTree<KeyType, ValueType>::Node* RBTree<KeyType, ValueType>::findMinKe
 }
 
 template<typename KeyType, typename ValueType>
-size_t RBTree<KeyType, ValueType>::size(const RBTree& tree) {
-	return tree._size;
+size_t RBTree<KeyType, ValueType>::size() {
+	return _size;
 }
 
 template<typename KeyType, typename ValueType>
-bool RBTree<KeyType, ValueType>::isEmpty(const RBTree& tree) {
-	if (tree._size == 0) return true;
+bool RBTree<KeyType, ValueType>::isEmpty() {
+	if (_size == 0) return true;
 	else return false;
 }

@@ -12,8 +12,8 @@ int main()
 	a.add(5, 55);
 	a.deleteFirst(4);
 	std::cout << a.findByKey(3);
-	std::cout << a.size(a);
-	std::cout << a.isEmpty(a);
+	std::cout << a.size();
+	std::cout << a.isEmpty();
 	std::cout << a.findMinKey();
 
 
