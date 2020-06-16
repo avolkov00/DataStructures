@@ -561,8 +561,7 @@ void RBTree<KeyType, ValueType>::deleteAll(const KeyType& key)
 {
 	while (recursionInTree(key, _head))
 	{
-		deleteFirst(key, _head);
-		_size--;
+		deleteFirst(key);
 	}
 }
 
