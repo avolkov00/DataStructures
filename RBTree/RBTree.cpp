@@ -11,5 +11,6 @@ int main()
 		a.add(6, 100 * i);
 	}
 	a.deleteAll(5);
+	a.deleteAll(6);
 	std::cout << a.size();
 }

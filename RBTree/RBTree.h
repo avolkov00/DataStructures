@@ -370,6 +370,10 @@ template<typename KeyType, typename ValueType>
 void RBTree<KeyType, ValueType>::deleteFirst(const KeyType& key) {
 	recursionDelete(key, _head);
 	_size--;
+	if (_size == 0)
+	{
+		_head = nullptr;
+	}
 }
 template<typename KeyType, typename ValueType>
 void RBTree<KeyType, ValueType>::recursionDelete(const KeyType& key,Node* cur) {
@@ -385,8 +389,10 @@ void RBTree<KeyType, ValueType>::deleteNode(Node* cur) {
 	{
 
 		balanceDelete(cur);
-		if (cur->parent->left == cur) cur->parent->left = nullptr;
-		else cur->parent->right = nullptr;
+		if (cur->parent != nullptr) {
+			if (cur->parent->left == cur) cur->parent->left = nullptr;
+			else cur->parent->right = nullptr;
+		}
 		delete cur;
 		return;
 	}

@@ -28,3 +28,5 @@ Stack/MyVector.h
 Queue/DoubleLinkedList.cpp
 *.json
 *.sqlite
+*.db-wal
+*.db-shm
